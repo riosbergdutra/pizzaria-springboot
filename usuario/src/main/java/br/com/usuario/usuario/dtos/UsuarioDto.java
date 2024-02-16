@@ -3,6 +3,7 @@ package br.com.usuario.usuario.dtos;
 import br.com.usuario.usuario.models.Usuario;
 
 public record UsuarioDto(
+   Long id,
    String nome_completo,
    String email,
    String senha,
@@ -11,6 +12,7 @@ public record UsuarioDto(
 ) {
    public UsuarioDto(Usuario novoUsuario) {
       this(
+         novoUsuario.getId(),
          novoUsuario.getNome_completo(),
          novoUsuario.getEmail(),
          novoUsuario.getSenha(),
@@ -19,5 +21,11 @@ public record UsuarioDto(
       );
    }
 
+   public Long getId() {
+      return id;
+   }
 
+   public String getEmail() {
+      return email;
+   }
 }
