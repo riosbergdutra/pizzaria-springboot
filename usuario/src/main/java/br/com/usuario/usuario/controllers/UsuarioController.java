@@ -1,6 +1,8 @@
 package br.com.usuario.usuario.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.http.HttpStatus;
@@ -52,21 +54,23 @@ public class UsuarioController {
         return ResponseEntity.ok(usuarios);
     }
 
-    @PutMapping("/{id}")
+     @PutMapping("/{id}")
+    @CachePut(value = "usuarios", key = "#id")
     public ResponseEntity<UsuarioDto> updateUserController(@PathVariable Long id, @RequestBody UsuarioDto usuarioDto) {
         UsuarioDto usuarioAtualizado = usuarioService.updateUserService(id, usuarioDto);
-        usuarioCacheService.cacheUsuario(id.toString(), usuarioAtualizado); 
         if (usuarioAtualizado != null) {
             return ResponseEntity.ok(usuarioAtualizado);
         } else {
             return ResponseEntity.notFound().build();
         }
     }
-
+    
+    @CacheEvict(value = "usuarios", key = "#id")    
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> removeUserController(@PathVariable Long id) {
         usuarioService.removeUserService(id);
-        usuarioCacheService.cacheUsuario(id.toString(), null); // Removendo do cache
+        usuarioCacheService.removeUsuarioFromCache(id.toString()); // Remover do cache
         return ResponseEntity.noContent().build();
     }
+    
 }
