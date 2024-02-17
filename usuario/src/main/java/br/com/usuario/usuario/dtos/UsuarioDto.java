@@ -32,6 +32,21 @@ public record UsuarioDto(
       return email;
    }
 
+   public String getNumero_telefone() {
+      return numero_telefone;
+   }
+
+   public String getSenha() {
+      return senha;
+   }
+
+   public String getEndereco() {
+      return endereco;
+   }
+
+   public String getNome_completo() {
+      return nome_completo;
+   }
    
    public static UsuarioDto fromJson(String json) {
       if (json == null || json.isEmpty()) {
@@ -45,14 +60,12 @@ public record UsuarioDto(
       }
   }
 
-public String toJson() {
-   
-   try {
-      ObjectMapper objectMapper = new ObjectMapper();
-      return objectMapper.writeValueAsString(this);
-  } catch (JsonProcessingException e) {
-      throw new RuntimeException("Erro ao converter UsuarioDto para JSON", e);
-  }
-}
-   
+  public String toJson() {  
+     try {
+        ObjectMapper objectMapper = new ObjectMapper();
+        return objectMapper.writeValueAsString(this);
+    } catch (JsonProcessingException e) {
+        throw new RuntimeException("Erro ao converter UsuarioDto para JSON", e);
+    }
+  } 
 }
