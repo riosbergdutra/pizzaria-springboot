@@ -47,20 +47,27 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
-    public UsuarioDto updateUserService(Long id, UsuarioDto usuarioDto) {
-        Optional<Usuario> optionalUsuario = usuarioRepository.findById(id);
-        if (optionalUsuario.isPresent()) {
-            Usuario usuario = optionalUsuario.get();
-            usuario.setNome_completo(usuarioDto.nome_completo());
-            usuario.setEmail(usuarioDto.email());
-            usuario.setEndereco(usuarioDto.endereco());
-            usuario.setNumero_telefone(usuarioDto.numero_telefone());
-            usuarioRepository.save(usuario);
-            return new UsuarioDto(usuario);
-        } else {
-            return null;
+public UsuarioDto updateUserService(Long id, UsuarioDto usuarioDto) {
+    Optional<Usuario> optionalUsuario = usuarioRepository.findById(id);
+    if (optionalUsuario.isPresent()) {
+        Usuario usuario = optionalUsuario.get();
+        usuario.setNome_completo(usuarioDto.getNome_completo());
+        usuario.setEmail(usuarioDto.getEmail());
+        usuario.setEndereco(usuarioDto.getEndereco());
+        usuario.setNumero_telefone(usuarioDto.getNumero_telefone());
+        
+        if (!usuarioDto.getSenha().equals(usuario.getSenha())) {
+            String senhaHash = passwordEncoder.encode(usuarioDto.getSenha());
+            usuario.setSenha(senhaHash);
         }
+        
+        usuarioRepository.save(usuario);
+        return new UsuarioDto(usuario);
+    } else {
+        return null;
     }
+}
+
 
     @Override
     public void removeUserService(Long id) {
