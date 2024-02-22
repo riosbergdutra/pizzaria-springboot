@@ -36,6 +36,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     public UsuarioDto findUserByIdService(Long id) {
+        @SuppressWarnings("null")
         Optional<Usuario> optionalUsuario = usuarioRepository.findById(id);
         return optionalUsuario.map(UsuarioDto::new).orElse(null);
     }
@@ -48,6 +49,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
 public UsuarioDto updateUserService(Long id, UsuarioDto usuarioDto) {
+    @SuppressWarnings("null")
     Optional<Usuario> optionalUsuario = usuarioRepository.findById(id);
     if (optionalUsuario.isPresent()) {
         Usuario usuario = optionalUsuario.get();
@@ -69,6 +71,7 @@ public UsuarioDto updateUserService(Long id, UsuarioDto usuarioDto) {
 }
 
 
+    @SuppressWarnings("null")
     @Override
     public void removeUserService(Long id) {
         usuarioRepository.deleteById(id);
