@@ -4,6 +4,8 @@ import br.com.usuario.usuario.dtos.UsuarioDto;
 import br.com.usuario.usuario.models.Usuario;
 import br.com.usuario.usuario.repositories.UsuarioRepository;
 import br.com.usuario.usuario.services.UsuarioService;
+import io.awspring.cloud.sqs.operations.SqsTemplate;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -12,7 +14,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import io.awspring.cloud.sqs.operations.SqsTemplate;
 
 @Service
 public class UsuarioServiceImpl implements UsuarioService {
@@ -24,7 +25,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     private PasswordEncoder passwordEncoder;
 
     @Autowired
-    private SqsTemplate sqsTemplate; // Injeção do SqsTemplate
+    private SqsTemplate sqsTemplate;
 
     @Override
     public UsuarioDto createUserService(UsuarioDto usuarioDto) {
@@ -45,9 +46,9 @@ public class UsuarioServiceImpl implements UsuarioService {
         return new UsuarioDto(novoUsuario);
     }
 
+    @SuppressWarnings("null")
     @Override
     public UsuarioDto findUserByIdService(Long id) {
-        @SuppressWarnings("null")
         Optional<Usuario> optionalUsuario = usuarioRepository.findById(id);
         if (optionalUsuario.isPresent()) {
             // Envio da mensagem para a fila SQS
@@ -68,9 +69,9 @@ public class UsuarioServiceImpl implements UsuarioService {
         return usuarios.stream().map(UsuarioDto::new).collect(Collectors.toList());
     }
 
+    @SuppressWarnings("null")
     @Override
     public UsuarioDto updateUserService(Long id, UsuarioDto usuarioDto) {
-        @SuppressWarnings("null")
         Optional<Usuario> optionalUsuario = usuarioRepository.findById(id);
         if (optionalUsuario.isPresent()) {
             Usuario usuario = optionalUsuario.get();
