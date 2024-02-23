@@ -46,9 +46,9 @@ public class UsuarioServiceImpl implements UsuarioService {
         return new UsuarioDto(novoUsuario);
     }
 
-    @SuppressWarnings("null")
     @Override
     public UsuarioDto findUserByIdService(Long id) {
+        @SuppressWarnings("null")
         Optional<Usuario> optionalUsuario = usuarioRepository.findById(id);
         if (optionalUsuario.isPresent()) {
             // Envio da mensagem para a fila SQS
@@ -69,9 +69,9 @@ public class UsuarioServiceImpl implements UsuarioService {
         return usuarios.stream().map(UsuarioDto::new).collect(Collectors.toList());
     }
 
-    @SuppressWarnings("null")
     @Override
     public UsuarioDto updateUserService(Long id, UsuarioDto usuarioDto) {
+        @SuppressWarnings("null")
         Optional<Usuario> optionalUsuario = usuarioRepository.findById(id);
         if (optionalUsuario.isPresent()) {
             Usuario usuario = optionalUsuario.get();
