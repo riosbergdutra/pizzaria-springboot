@@ -66,19 +66,20 @@ public class ProdutoServiceImpl implements ProdutoService {
     }
 
     @Override
-    public ProdutoDto updateProdutoService(Long id, ProdutoDto produtoDto) {
-        @SuppressWarnings("null")
-        Optional<Produto> optionalProduto = produtoRepository.findById(id);
-        if (optionalProduto.isPresent()) {
-            Produto produto = optionalProduto.get();
-            produto.setNome(produtoDto.getNome());
-            produto.setDescricao(produtoDto.getDescricao());
-            produto.setPreco_unitario(produtoDto.getPreco_unitario());
-            produto.setImagem(produtoDto.getImagem());
-            produto.setCodigo_barra(produtoDto.getCodigo_barra());
-            produto.setCategoria(produtoDto.getCategoria());
+public ProdutoDto updateProdutoService(Long id, ProdutoDto produtoDto) {
+    @SuppressWarnings("null")
+    Optional<Produto> optionalProduto = produtoRepository.findById(id);
+    if (optionalProduto.isPresent()) {
+        Produto produto = optionalProduto.get();
+        produto.setNome(produtoDto.getNome());
+        produto.setDescricao(produtoDto.getDescricao());
+        produto.setPreco_unitario(produtoDto.getPreco_unitario());
+        produto.setImagem(produtoDto.getImagem());
+        produto.setCodigo_barra(produtoDto.getCodigo_barra());
+        produto.setCategoria(produtoDto.getCategoria());
 
-            produtoRepository.save(produto);
+        try {
+            produto = produtoRepository.save(produto);
 
             // Envio da mensagem para a fila SQS
             String queueUrl = "http://localhost:4566/000000000000/minha-fila";
@@ -86,12 +87,15 @@ public class ProdutoServiceImpl implements ProdutoService {
             sqsTemplate.send(queueUrl, messageBody);
 
             return new ProdutoDto(produto);
-        } else {
-            return null;
+        } catch (Exception e) {
+            // Tratamento de exceção em caso de erro ao salvar no banco de dados
+            throw new RuntimeException("Erro ao atualizar o produto", e);
         }
+    } else {
+        return null;
     }
-
-    @SuppressWarnings("null")
+}   
+@SuppressWarnings("null")
     @Override
     public void removeProdutoService(Long id) {
         produtoRepository.deleteById(id);
