@@ -12,10 +12,10 @@ import software.amazon.awssdk.services.sqs.SqsAsyncClient;
 public class SqsConfig {
 
     @Bean
-   public SqsAsyncClient sqsAsyncClient() {
-    return SqsAsyncClient.builder()
-    .endpointOverride(URI.create("http://localhost:4566"))
-    .region(Region.US_EAST_1)
-    .build();
-   }
+    public SqsAsyncClient sqsAsyncClient() {
+        return SqsAsyncClient.builder()
+            .endpointOverride(URI.create("http://localhost:4566"))
+            .region(Region.US_EAST_1)
+            .build();
+    }
 }
