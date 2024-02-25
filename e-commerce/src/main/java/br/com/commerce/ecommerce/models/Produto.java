@@ -5,6 +5,8 @@ package br.com.commerce.ecommerce.models;
 import br.com.commerce.ecommerce.enums.Categoria;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -44,6 +46,7 @@ public class Produto {
     private int codigo_barra;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private Categoria categoria;
 
     } 
