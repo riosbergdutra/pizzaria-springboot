@@ -4,9 +4,9 @@
 aws --endpoint-url=http://localhost:4566 dynamodb create-table \
     --table-name usuarios \
     --attribute-definitions \
-        AttributeName=id,AttributeType=N \
+        AttributeName=user_id,AttributeType=N \
     --key-schema \
-        AttributeName=id,KeyType=HASH \
+        AttributeName=user_id,KeyType=HASH \
     --provisioned-throughput \
         ReadCapacityUnits=5,WriteCapacityUnits=5
 
@@ -14,9 +14,9 @@ aws --endpoint-url=http://localhost:4566 dynamodb create-table \
 aws --endpoint-url=http://localhost:4566 dynamodb create-table \
     --table-name produtos \
     --attribute-definitions \
-        AttributeName=id,AttributeType=N \
+        AttributeName=product_id,AttributeType=N \
     --key-schema \
-        AttributeName=id,KeyType=HASH \
+        AttributeName=product_id,KeyType=HASH \
     --provisioned-throughput \
         ReadCapacityUnits=5,WriteCapacityUnits=5
 
