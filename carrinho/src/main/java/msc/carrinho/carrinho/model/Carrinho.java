@@ -18,19 +18,19 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode(of = "id")
+@EqualsAndHashCode(of = "carrinho_id")
 public class Carrinho {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long carrinho_id;
     
-    private Long userId;
+    private Long user_Id;
     
-    private Long productId;
+    private Long product_Id;
     
-    private int quantity;
+    private int quantidade;
     
-    private double precoTotal;
+    private double preco_total;
     
     private double frete;
 }
