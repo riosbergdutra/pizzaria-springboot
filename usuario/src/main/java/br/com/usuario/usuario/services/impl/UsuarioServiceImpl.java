@@ -48,6 +48,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     public UsuarioDto findUserByIdService(Long user_id) {
+        @SuppressWarnings("null")
         Optional<Usuario> optionalUsuario = usuarioRepository.findById(user_id);
         if (optionalUsuario.isPresent()) {
             // Envio da mensagem para a fila SQS
@@ -70,6 +71,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     public UsuarioDto updateUserService(Long user_id, UsuarioDto usuarioDto) {
+        @SuppressWarnings("null")
         Optional<Usuario> optionalUsuario = usuarioRepository.findById(user_id);
         if (optionalUsuario.isPresent()) {
             Usuario usuario = optionalUsuario.get();
@@ -96,6 +98,7 @@ public class UsuarioServiceImpl implements UsuarioService {
         }
     }
 
+    @SuppressWarnings("null")
     @Override
     public void removeUserService(Long user_id) {
         usuarioRepository.deleteById(user_id);
