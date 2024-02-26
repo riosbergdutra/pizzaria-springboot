@@ -29,17 +29,17 @@ public class UsuarioController {
     @PostMapping
     public ResponseEntity<UsuarioDto> createUserController(@RequestBody UsuarioDto usuarioDto) {
         UsuarioDto novoUsuario = usuarioService.createUserService(usuarioDto);
-        usuarioCacheService.cacheUsuario(novoUsuario.getId().toString(), novoUsuario);
+        usuarioCacheService.cacheUsuario(novoUsuario.getUser_id().toString(), novoUsuario);
         return ResponseEntity.status(HttpStatus.CREATED).body(novoUsuario);
     }
     @Cacheable("usuarios")
-    @GetMapping("/{id}")
-    public ResponseEntity<UsuarioDto> findUserByIdController(@PathVariable Long id) {
-        UsuarioDto usuarioDto = usuarioCacheService.getUsuarioFromCache(id.toString());
+    @GetMapping("/{user_id}")
+    public ResponseEntity<UsuarioDto> findUserByIdController(@PathVariable Long user_id) {
+        UsuarioDto usuarioDto = usuarioCacheService.getUsuarioFromCache(user_id.toString());
         if (usuarioDto != null) {
             return ResponseEntity.ok(usuarioDto);
         } else {
-            usuarioDto = usuarioService.findUserByIdService(id);
+            usuarioDto = usuarioService.findUserByIdService(user_id);
             if (usuarioDto != null) {
                 return ResponseEntity.ok(usuarioDto);
             } else {
@@ -54,10 +54,10 @@ public class UsuarioController {
         return ResponseEntity.ok(usuarios);
     }
 
-     @PutMapping("/{id}")
-    @CachePut(value = "usuarios", key = "#id")
-    public ResponseEntity<UsuarioDto> updateUserController(@PathVariable Long id, @RequestBody UsuarioDto usuarioDto) {
-        UsuarioDto usuarioAtualizado = usuarioService.updateUserService(id, usuarioDto);
+     @PutMapping("/{user_id}")
+    @CachePut(value = "usuarios", key = "#user_id")
+    public ResponseEntity<UsuarioDto> updateUserController(@PathVariable Long user_id, @RequestBody UsuarioDto usuarioDto) {
+        UsuarioDto usuarioAtualizado = usuarioService.updateUserService(user_id, usuarioDto);
         if (usuarioAtualizado != null) {
             return ResponseEntity.ok(usuarioAtualizado);
         } else {
@@ -65,11 +65,11 @@ public class UsuarioController {
         }
     }
     
-    @CacheEvict(value = "usuarios", key = "#id")    
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> removeUserController(@PathVariable Long id) {
-        usuarioService.removeUserService(id);
-        usuarioCacheService.removeUsuarioFromCache(id.toString()); // Remover do cache
+    @CacheEvict(value = "usuarios", key = "#user_id")    
+    @DeleteMapping("/{user_id}")
+    public ResponseEntity<Void> removeUserController(@PathVariable Long user_id) {
+        usuarioService.removeUserService(user_id);
+        usuarioCacheService.removeUsuarioFromCache(user_id.toString()); // Remover do cache
         return ResponseEntity.noContent().build();
     }
     

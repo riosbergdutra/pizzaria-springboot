@@ -25,7 +25,7 @@ public class ProdutoCacheServiceImpl implements ProdutoCacheService {
     @Override
     public void cacheProduto(String key, ProdutoDto produtoDto) {
         Map<String, AttributeValue> itemValues = new HashMap<>();
-        itemValues.put("id", AttributeValue.builder().n(String.valueOf(produtoDto.getId())).build());
+        itemValues.put("product_id", AttributeValue.builder().n(String.valueOf(produtoDto.getProduct_id())).build());
         itemValues.put("nome", AttributeValue.builder().s(produtoDto.getNome()).build());
         itemValues.put("cache_value", AttributeValue.builder().s(produtoDto.toJson()).build());
     
@@ -37,12 +37,11 @@ public class ProdutoCacheServiceImpl implements ProdutoCacheService {
     
 
     @Override
-    public ProdutoDto getProdutoFromCache(String id) {
-        Objects.requireNonNull(id, "ID não pode ser nulo");
+    public ProdutoDto getProdutoFromCache(String product_id) {
+        Objects.requireNonNull(product_id, "ID não pode ser nulo");
 
         Map<String, AttributeValue> key = new HashMap<>();
-        key.put("id", AttributeValue.builder().n(id).build());
-
+        key.put("product_id", AttributeValue.builder().n(product_id).build());
         GetItemRequest request = GetItemRequest.builder()
                 .tableName("produtos")
                 .key(key)
@@ -67,11 +66,11 @@ public class ProdutoCacheServiceImpl implements ProdutoCacheService {
     }
 
     @Override
-    public void removeProdutoFromCache(String id) {
-        Objects.requireNonNull(id, "ID não pode ser nulo");
+    public void removeProdutoFromCache(String product_id) {
+        Objects.requireNonNull(product_id, "ID não pode ser nulo");
 
         Map<String, AttributeValue> key = new HashMap<>();
-        key.put("id", AttributeValue.builder().n(id).build());
+        key.put("product_id", AttributeValue.builder().n(product_id).build());
 
         DeleteItemRequest request = DeleteItemRequest.builder()
                 .tableName("produtos")
@@ -91,7 +90,7 @@ public class ProdutoCacheServiceImpl implements ProdutoCacheService {
         Objects.requireNonNull(produtoDto, "ProdutoDto não pode ser nulo");
     
         Map<String, AttributeValue> itemValues = new HashMap<>();
-        itemValues.put("id", AttributeValue.builder().n(String.valueOf(produtoDto.getId())).build());
+        itemValues.put("product_id", AttributeValue.builder().n(String.valueOf(produtoDto.getProduct_id())).build());
         itemValues.put("nome", AttributeValue.builder().s(produtoDto.getNome()).build());
         itemValues.put("cache_value", AttributeValue.builder().s(produtoDto.toJson()).build());
     

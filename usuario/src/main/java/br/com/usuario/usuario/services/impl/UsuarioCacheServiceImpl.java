@@ -24,7 +24,7 @@ public class UsuarioCacheServiceImpl implements UsuarioCacheService {
     @Override
     public void cacheUsuario(String key, UsuarioDto usuarioDto) {
         Map<String, AttributeValue> itemValues = new HashMap<>();
-        itemValues.put("id", AttributeValue.builder().n(String.valueOf(usuarioDto.getId())).build());
+        itemValues.put("user_id", AttributeValue.builder().n(String.valueOf(usuarioDto.getUser_id())).build());
         itemValues.put("email", AttributeValue.builder().s(usuarioDto.getEmail()).build());
         itemValues.put("cache_value", AttributeValue.builder().s(usuarioDto.toJson()).build());
     
@@ -36,11 +36,11 @@ public class UsuarioCacheServiceImpl implements UsuarioCacheService {
     
 
     @Override
-    public UsuarioDto getUsuarioFromCache(String id) {
-        Objects.requireNonNull(id, "ID não pode ser nulo");
+    public UsuarioDto getUsuarioFromCache(String user_id) {
+        Objects.requireNonNull(user_id, "ID não pode ser nulo");
 
         Map<String, AttributeValue> key = new HashMap<>();
-        key.put("id", AttributeValue.builder().n(id).build());
+        key.put("user_id", AttributeValue.builder().n(user_id).build());
 
         GetItemRequest request = GetItemRequest.builder()
                 .tableName("usuarios")
@@ -66,11 +66,11 @@ public class UsuarioCacheServiceImpl implements UsuarioCacheService {
     }
 
     @Override
-    public void removeUsuarioFromCache(String id) {
-        Objects.requireNonNull(id, "ID não pode ser nulo");
+    public void removeUsuarioFromCache(String user_id) {
+        Objects.requireNonNull(user_id, "ID não pode ser nulo");
 
         Map<String, AttributeValue> key = new HashMap<>();
-        key.put("id", AttributeValue.builder().n(id).build());
+        key.put("user_id", AttributeValue.builder().n(user_id).build());
 
         DeleteItemRequest request = DeleteItemRequest.builder()
                 .tableName("usuarios")
@@ -90,7 +90,7 @@ public class UsuarioCacheServiceImpl implements UsuarioCacheService {
         Objects.requireNonNull(usuarioDto, "UsuarioDto não pode ser nulo");
     
         Map<String, AttributeValue> itemValues = new HashMap<>();
-        itemValues.put("id", AttributeValue.builder().n(String.valueOf(usuarioDto.getId())).build());
+        itemValues.put("user_id", AttributeValue.builder().n(String.valueOf(usuarioDto.getUser_id())).build());
         itemValues.put("email", AttributeValue.builder().s(usuarioDto.getEmail()).build());
         itemValues.put("cache_value", AttributeValue.builder().s(usuarioDto.toJson()).build());
     

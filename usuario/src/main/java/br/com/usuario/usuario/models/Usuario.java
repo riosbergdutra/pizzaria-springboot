@@ -26,12 +26,12 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode(of = "id")
+@EqualsAndHashCode(of = "user_id")
 public class Usuario implements UserDetails {
     
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id 
-    private Long id;
+    private Long user_id;
 
     @Column(nullable = false)
     private String nome_completo;

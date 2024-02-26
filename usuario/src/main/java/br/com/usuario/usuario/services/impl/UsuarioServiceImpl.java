@@ -47,13 +47,12 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
-    public UsuarioDto findUserByIdService(Long id) {
-        @SuppressWarnings("null")
-        Optional<Usuario> optionalUsuario = usuarioRepository.findById(id);
+    public UsuarioDto findUserByIdService(Long user_id) {
+        Optional<Usuario> optionalUsuario = usuarioRepository.findById(user_id);
         if (optionalUsuario.isPresent()) {
             // Envio da mensagem para a fila SQS
             String queueUrl = "http://localhost:4566/000000000000/minha-fila";
-            String messageBody = "Usuário encontrado pelo ID: " + id;
+            String messageBody = "Usuário encontrado pelo ID: " + user_id;
             sqsTemplate.send(queueUrl, messageBody);
         }
         return optionalUsuario.map(UsuarioDto::new).orElse(null);
@@ -70,9 +69,8 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
-    public UsuarioDto updateUserService(Long id, UsuarioDto usuarioDto) {
-        @SuppressWarnings("null")
-        Optional<Usuario> optionalUsuario = usuarioRepository.findById(id);
+    public UsuarioDto updateUserService(Long user_id, UsuarioDto usuarioDto) {
+        Optional<Usuario> optionalUsuario = usuarioRepository.findById(user_id);
         if (optionalUsuario.isPresent()) {
             Usuario usuario = optionalUsuario.get();
             usuario.setNome_completo(usuarioDto.getNome_completo());
@@ -89,7 +87,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 
             // Envio da mensagem para a fila SQS
             String queueUrl = "http://localhost:4566/000000000000/minha-fila";
-            String messageBody = "Usuário atualizado pelo ID: " + id;
+            String messageBody = "Usuário atualizado pelo ID: " + user_id;
             sqsTemplate.send(queueUrl, messageBody);
 
             return new UsuarioDto(usuario);
@@ -98,14 +96,13 @@ public class UsuarioServiceImpl implements UsuarioService {
         }
     }
 
-    @SuppressWarnings("null")
     @Override
-    public void removeUserService(Long id) {
-        usuarioRepository.deleteById(id);
+    public void removeUserService(Long user_id) {
+        usuarioRepository.deleteById(user_id);
 
         // Envio da mensagem para a fila SQS
         String queueUrl = "http://localhost:4566/000000000000/minha-fila";
-        String messageBody = "Usuário removido pelo ID: " + id;
+        String messageBody = "Usuário removido pelo ID: " + user_id;
         sqsTemplate.send(queueUrl, messageBody);
     }
 }

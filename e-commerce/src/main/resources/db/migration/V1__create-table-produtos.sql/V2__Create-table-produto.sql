@@ -1,5 +1,5 @@
 CREATE TABLE produto (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    product_id BIGINT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(255) NOT NULL,
     descricao VARCHAR(255) NOT NULL,
     preco_unitario DOUBLE NOT NULL,

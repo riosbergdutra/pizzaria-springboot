@@ -26,20 +26,20 @@ public class ProdutoController {
     @PostMapping
     public ResponseEntity<ProdutoDto> createProdutoController(@RequestBody ProdutoDto produtoDto) {
         ProdutoDto novoProduto = produtoService.createProdutoService(produtoDto);
-        produtoCacheService.cacheProduto(novoProduto.getId().toString(), novoProduto);
+        produtoCacheService.cacheProduto(novoProduto.getProduct_id().toString(), novoProduto);
         return ResponseEntity.status(HttpStatus.CREATED).body(novoProduto);
     }
 
     @Cacheable("produtos")
-    @GetMapping("/{id}")
-    public ResponseEntity<ProdutoDto> findProdutoByIdController(@PathVariable Long id) {
-        ProdutoDto produtoDto = produtoCacheService.getProdutoFromCache(id.toString());
+    @GetMapping("/{product_id}")
+    public ResponseEntity<ProdutoDto> findProdutoByIdController(@PathVariable Long product_id) {
+        ProdutoDto produtoDto = produtoCacheService.getProdutoFromCache(product_id.toString());
         if (produtoDto != null) {
             return ResponseEntity.ok(produtoDto);
         } else {
-            produtoDto = produtoService.findProdutoByIdService(id);
+            produtoDto = produtoService.findProdutoByIdService(product_id);
             if (produtoDto != null) {
-                produtoCacheService.cacheProduto(id.toString(), produtoDto); 
+                produtoCacheService.cacheProduto(product_id.toString(), produtoDto); 
                 return ResponseEntity.ok(produtoDto);
             } else {
                 return ResponseEntity.notFound().build();
@@ -54,10 +54,10 @@ public class ProdutoController {
         return ResponseEntity.ok(produtos);
     }
 
-    @CachePut(value = "produtos", key = "#id")
-    @PutMapping("/{id}")
-    public ResponseEntity<ProdutoDto> updateProdutoController(@PathVariable Long id, @RequestBody ProdutoDto produtoDto) {
-        ProdutoDto produtoAtualizado = produtoService.updateProdutoService(id, produtoDto);
+    @CachePut(value = "produtos", key = "#product_id")
+    @PutMapping("/{product_id}")
+    public ResponseEntity<ProdutoDto> updateProdutoController(@PathVariable Long product_id, @RequestBody ProdutoDto produtoDto) {
+        ProdutoDto produtoAtualizado = produtoService.updateProdutoService(product_id, produtoDto);
         if (produtoAtualizado != null) {
             return ResponseEntity.ok(produtoAtualizado);
         } else {
@@ -65,11 +65,11 @@ public class ProdutoController {
         }
     }
 
-    @CacheEvict(value = "produtos", key = "#id")
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> removeProdutoController(@PathVariable Long id) {
-        produtoService.removeProdutoService(id);
-        produtoCacheService.removeProdutoFromCache(id.toString()); // Remover do cache
+    @CacheEvict(value = "produtos", key = "#product_id")
+    @DeleteMapping("/{product_id}")
+    public ResponseEntity<Void> removeProdutoController(@PathVariable Long product_id) {
+        produtoService.removeProdutoService(product_id);
+        produtoCacheService.removeProdutoFromCache(product_id.toString()); // Remover do cache
         return ResponseEntity.noContent().build();
     }
 }

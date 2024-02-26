@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import br.com.usuario.usuario.models.Usuario;
 
 public record UsuarioDto(
-   Long id,
+   Long user_id,
    String nome_completo,
    String email,
    String senha,
@@ -15,7 +15,7 @@ public record UsuarioDto(
 ) {
    public UsuarioDto(Usuario novoUsuario) {
       this(
-         novoUsuario.getId(),
+         novoUsuario.getUser_id(),
          novoUsuario.getNome_completo(),
          novoUsuario.getEmail(),
          novoUsuario.getSenha(),
@@ -24,8 +24,8 @@ public record UsuarioDto(
       );
    }
 
-   public Long getId() {
-      return id;
+   public Long getUser_id() {
+      return user_id;
    }
 
    public String getEmail() {

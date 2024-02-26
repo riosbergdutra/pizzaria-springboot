@@ -8,7 +8,7 @@ import br.com.commerce.ecommerce.enums.Categoria;
 import br.com.commerce.ecommerce.models.Produto;
 
 public record ProdutoDto(
-    Long id,
+    Long product_id,
     String nome,
     String descricao,
     double preco_unitario,
@@ -18,7 +18,7 @@ public record ProdutoDto(
 ) { 
     public ProdutoDto(Produto novoProduto) {
         this(
-            novoProduto.getId(),
+            novoProduto.getProduct_id(),
             novoProduto.getNome(),
             novoProduto.getDescricao(),
             novoProduto.getPreco_unitario(),
@@ -28,8 +28,8 @@ public record ProdutoDto(
         );
     }
 
-    public Long getId() {
-        return id;
+    public Long getProduct_id() {
+        return product_id;
     }
 
     public String getNome() {

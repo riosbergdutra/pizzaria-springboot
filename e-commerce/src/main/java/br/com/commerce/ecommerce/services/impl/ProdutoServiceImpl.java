@@ -43,13 +43,12 @@ public class ProdutoServiceImpl implements ProdutoService {
     }
 
     @Override
-    public ProdutoDto findProdutoByIdService(Long id) {
-        @SuppressWarnings("null")
-        Optional<Produto> optionalProduto = produtoRepository.findById(id);
+    public ProdutoDto findProdutoByIdService(Long product_id) {
+        Optional<Produto> optionalProduto = produtoRepository.findById(product_id);
         if (optionalProduto.isPresent()) {
             // Envio da mensagem para a fila SQS
             String queueUrl = "http://localhost:4566/000000000000/minha-fila";
-            String messageBody = "Produto encontrado pelo ID: " + id;
+            String messageBody = "Produto encontrado pelo ID: " + product_id;
             sqsTemplate.send(queueUrl, messageBody);
         }
         return optionalProduto.map(ProdutoDto::new).orElse(null);
@@ -66,9 +65,8 @@ public class ProdutoServiceImpl implements ProdutoService {
     }
 
     @Override
-public ProdutoDto updateProdutoService(Long id, ProdutoDto produtoDto) {
-    @SuppressWarnings("null")
-    Optional<Produto> optionalProduto = produtoRepository.findById(id);
+public ProdutoDto updateProdutoService(Long product_id, ProdutoDto produtoDto) {
+    Optional<Produto> optionalProduto = produtoRepository.findById(product_id);
     if (optionalProduto.isPresent()) {
         Produto produto = optionalProduto.get();
         produto.setNome(produtoDto.getNome());
@@ -83,7 +81,7 @@ public ProdutoDto updateProdutoService(Long id, ProdutoDto produtoDto) {
 
             // Envio da mensagem para a fila SQS
             String queueUrl = "http://localhost:4566/000000000000/minha-fila";
-            String messageBody = "Produto atualizado pelo ID: " + id;
+            String messageBody = "Produto atualizado pelo ID: " + product_id;
             sqsTemplate.send(queueUrl, messageBody);
 
             return new ProdutoDto(produto);
@@ -95,14 +93,13 @@ public ProdutoDto updateProdutoService(Long id, ProdutoDto produtoDto) {
         return null;
     }
 }   
-@SuppressWarnings("null")
-    @Override
-    public void removeProdutoService(Long id) {
-        produtoRepository.deleteById(id);
+@Override
+    public void removeProdutoService(Long product_id) {
+        produtoRepository.deleteById(product_id);
 
         // Envio da mensagem para a fila SQS
         String queueUrl = "http://localhost:4566/000000000000/minha-fila";
-        String messageBody = "Produto removido pelo ID: " + id;
+        String messageBody = "Produto removido pelo ID: " + product_id;
         sqsTemplate.send(queueUrl, messageBody);
     }
 }

@@ -23,12 +23,12 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode(of = "id")
+@EqualsAndHashCode(of = "product_id")
 public class Produto {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id 
-    private Long id;
+    private Long product_id;
 
     @Column(nullable = false)
     private String nome;
