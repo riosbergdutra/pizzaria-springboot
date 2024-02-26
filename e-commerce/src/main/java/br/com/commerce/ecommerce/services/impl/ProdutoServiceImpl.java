@@ -44,6 +44,7 @@ public class ProdutoServiceImpl implements ProdutoService {
 
     @Override
     public ProdutoDto findProdutoByIdService(Long product_id) {
+        @SuppressWarnings("null")
         Optional<Produto> optionalProduto = produtoRepository.findById(product_id);
         if (optionalProduto.isPresent()) {
             // Envio da mensagem para a fila SQS
@@ -66,6 +67,7 @@ public class ProdutoServiceImpl implements ProdutoService {
 
     @Override
 public ProdutoDto updateProdutoService(Long product_id, ProdutoDto produtoDto) {
+    @SuppressWarnings("null")
     Optional<Produto> optionalProduto = produtoRepository.findById(product_id);
     if (optionalProduto.isPresent()) {
         Produto produto = optionalProduto.get();
@@ -93,6 +95,7 @@ public ProdutoDto updateProdutoService(Long product_id, ProdutoDto produtoDto) {
         return null;
     }
 }   
+@SuppressWarnings("null")
 @Override
     public void removeProdutoService(Long product_id) {
         produtoRepository.deleteById(product_id);
