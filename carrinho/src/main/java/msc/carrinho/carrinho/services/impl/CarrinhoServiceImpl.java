@@ -34,7 +34,7 @@ public class CarrinhoServiceImpl implements CarrinhoService {
 
         // Envio da mensagem para a fila SQS
         String queueUrl = "http://localhost:4566/000000000000/minha-fila";
-        String messageBody = "Novo carrinho criado: " + carrinhoDto.getCarrinho_id();
+        String messageBody = "Novo carrinho criado: " + novoCarrinho.getCarrinho_id();
         sqsTemplate.send(queueUrl, messageBody);
 
         return new CarrinhoDto(novoCarrinho);
