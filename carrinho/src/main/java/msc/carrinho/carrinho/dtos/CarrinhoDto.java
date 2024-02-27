@@ -25,7 +25,7 @@ public record CarrinhoDto(
     }
 
     public Long getCarrinho_id() {
-        return product_Id;
+        return carrinho_id;
     }
     
      public Long getUser_Id() {
