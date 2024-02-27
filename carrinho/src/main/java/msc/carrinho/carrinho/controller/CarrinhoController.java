@@ -6,6 +6,7 @@ import msc.carrinho.carrinho.services.CarrinhoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,6 +30,7 @@ public class CarrinhoController {
         return ResponseEntity.status(HttpStatus.CREATED).body(novoCarrinho);
     }
 
+    @Cacheable(value = "carrinho", key = "#carrinho_id")
     @GetMapping("/{carrinho_id}")
     public ResponseEntity<CarrinhoDto> findCarrinhoById(@PathVariable Long carrinho_id) {
         CarrinhoDto carrinhoDto = carrinhoCacheService.getCarrinhoFromCache(carrinho_id.toString());
