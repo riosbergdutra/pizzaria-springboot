@@ -51,7 +51,6 @@ public class Pedidos {
     @Column(nullable = false)
     private double total_pedido;
 
-    @Column(nullable = false)
     private Timestamp data_pedido;
     
     @Enumerated(EnumType.STRING)
