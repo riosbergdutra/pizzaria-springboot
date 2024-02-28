@@ -30,12 +30,25 @@ aws --endpoint-url=http://localhost:4566 dynamodb create-table \
     --provisioned-throughput \
         ReadCapacityUnits=5,WriteCapacityUnits=5
 
+# para o aws cli com localstack pedidos
+
+ws --endpoint-url=http://localhost:4566 dynamodb create-table \
+    --table-name pedidos \
+    --attribute-definitions \
+        AttributeName=pedido_id,AttributeType=N \
+    --key-schema \
+        AttributeName=pedido_id,KeyType=HASH \
+    --provisioned-throughput \
+        ReadCapacityUnits=5,WriteCapacityUnits=5
+
 # para poder visualizar 
 aws --endpoint-url=http://localhost:4566 dynamodb scan --table-name usuarios
 
 aws --endpoint-url=http://localhost:4566 dynamodb scan --table-name produtos
 
 aws --endpoint-url=http://localhost:4566 dynamodb scan --table-name carrinho
+
+aws --endpoint-url=http://localhost:4566 dynamodb scan --table-name pedidos
 
 
 # minha fila de SQS
