@@ -1,4 +1,4 @@
-CREATE TABLE pedido (
+CREATE TABLE pedidos (
     pedido_id BIGINT AUTO_INCREMENT PRIMARY KEY,
     user_id BIGINT,
     product_id BIGINT,
@@ -9,6 +9,6 @@ CREATE TABLE pedido (
     total_pedido DECIMAL(10, 2),
     data_pedido TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     status_pedido VARCHAR(50) DEFAULT 'pendente',
-    FOREIGN KEY (user_id) REFERENCES usuarios(user_id),
-    FOREIGN KEY (product_id) REFERENCES produto(product_id)
+    FOREIGN KEY (user_id) REFERENCES pizzaria_usuarios.usuarios(user_Id),
+    FOREIGN KEY (product_id) REFERENCES pizzaria_produtos.produto(product_Id)
 );
