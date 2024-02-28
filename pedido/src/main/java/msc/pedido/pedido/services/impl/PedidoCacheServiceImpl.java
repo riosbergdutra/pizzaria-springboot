@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import msc.pedido.pedido.dtos.PedidoDto;
+import msc.pedido.pedido.enums.StatusPedido;
+import msc.pedido.pedido.model.Pedidos;
 import msc.pedido.pedido.services.PedidoCacheService;
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 import software.amazon.awssdk.services.dynamodb.model.*;
@@ -16,6 +18,8 @@ import java.util.Objects;
 public class PedidoCacheServiceImpl implements PedidoCacheService {
 
     private final DynamoDbClient dynamoDbClient;
+
+
 
     @Autowired
     public PedidoCacheServiceImpl(DynamoDbClient dynamoDbClient) {
@@ -63,7 +67,27 @@ public class PedidoCacheServiceImpl implements PedidoCacheService {
         return null;
     }
 
+    @Override
+    public boolean realizarCheckout(String pedido_id) {
+        Objects.requireNonNull(pedido_id, "ID do pedido não pode ser nulo");
+    
+        // Obtém o pedido do cache
+        PedidoDto pedidoDto = getPedidoFromCache(pedido_id);
+        if (pedidoDto != null) {
+            // Atualiza o status do pedido para "concluído"
+            Pedidos pedido = new Pedidos();
+            pedido.setPedido_id(Long.parseLong(pedido_id));
+            pedido.setStatus_pedido(StatusPedido.concluido);
+    
+            // Atualiza o pedido no cache
+            cachePedido(pedido_id, new PedidoDto(pedido));
+    
+            // Retorna true para indicar que o checkout foi realizado com sucesso
+            return true;
+        }
+    
+        // Retorna false se o pedido não foi encontrado no cache
+        return false;
+    }    
     
 }
-
-
